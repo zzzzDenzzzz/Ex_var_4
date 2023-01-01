@@ -28,30 +28,49 @@ namespace Ex_var_4.ViewModel
             set => Set(ref selectedEmployee, value);
         }
 
-        string searchText;
-        public string SearchText
+        string search;
+        public string Search
         {
-            get => searchText;
-            set => Set(ref searchText, value);
+            get => search;
+            set
+            {
+                Set(ref search, value);
+                if (value != string.Empty)
+                {
+                    ResultSearch = UpdateListEmployee();
+                }
+                else
+                {
+                    ResultSearch = null;
+                }
+            }
         }
 
         public MainWindowViewModel()
         {
             Employees = EmployeesDB.GetEmployees().ToList();
-            EmployeesSearch = _SearchEmployees();
         }
 
-        List<Employee> _SearchEmployees()
+        List<Employee> resultSearch;
+        public List<Employee> ResultSearch
         {
-            var e = EmployeesDB.GetEmployees().Where(x => searchText == string.Empty || searchText == null
-                            || x.Surname.ToLower().Contains(searchText.ToLower())
-                            || x.Name.ToLower().Contains(searchText.ToLower())
-                            || x.Patronymic.ToLower().Contains(searchText.ToLower())
-                            || x.JobTitle.ToLower().Contains(searchText.ToLower())
-                            || x.Login.ToLower().Contains(searchText.ToLower())
-                            || x.PhoneNumber.ToLower().Contains(searchText.ToLower())).ToList();
-            OnPropertyChanged(nameof(EmployeesSearch));
-            return e;
+            get => resultSearch;
+            set => Set(ref resultSearch, value);
+        }
+        /// <summary>
+        /// поиск по ФИО, должности, логину, номеру телефона
+        /// </summary>
+        /// <returns>список совпадений</returns>
+        List<Employee> UpdateListEmployee()
+        {
+            var result = EmployeesDB.GetEmployees().Where(x => search == string.Empty || search == null
+            || x.Name.ToLower().Contains(search.ToLower())
+            || x.Surname.ToLower().Contains(search.ToLower())
+            || x.Patronymic.ToLower().Contains(search.ToLower())
+            || x.Login.ToLower().Contains(search.ToLower())
+            || x.PhoneNumber.ToLower().Contains(search.ToLower())).ToList();
+
+            return result;
         }
     }
 }
