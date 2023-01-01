@@ -7,12 +7,11 @@ namespace Ex_var_4.Model
         /// <summary>
         /// создает список сотрудников
         /// </summary>
-        /// <param name="quantityEmploees">количество сотрудников</param>
         /// <returns>список сотрудников</returns>
-        public static ObservableCollection<Employee> GetEmployees(int quantityEmploees)
+        public static ObservableCollection<Employee> GetEmployees()
         {
             var employees = new ObservableCollection<Employee>();
-            for (int i = 1; i <= quantityEmploees; i++)
+            for (int i = 1; i <= 9; i++)
             {
                 employees.Add(new Employee()
                 {
