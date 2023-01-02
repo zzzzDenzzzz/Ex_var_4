@@ -65,6 +65,7 @@
     </Compile>
     <Compile Include="Model\Employee.cs" />
     <Compile Include="Model\EmployeesDB.cs" />
+    <Compile Include="ViewModel\Command\CommandClass.cs" />
     <Compile Include="ViewModel\NotifyPropertyChanged\NotifyPropertyChangedClass.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">

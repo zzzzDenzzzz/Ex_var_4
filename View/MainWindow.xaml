@@ -24,9 +24,12 @@
             <DockPanel>
                 <StackPanel DockPanel.Dock="Bottom">
                     <Button Content="Добавить"
-                            Margin="0 2"/>
+                            Margin="0 2"
+                            Command="{Binding Path=AddCommand}"/>
                     <Button Content="Удалить"
-                            Margin="0 2"/>
+                            Margin="0 2"
+                            Command="{Binding Path=RemoveCommand}"
+                            CommandParameter="{Binding Path=SelectedEmployee}"/>
                     <Button Content="Изменить"
                             Margin="0 2"/>
                 </StackPanel>

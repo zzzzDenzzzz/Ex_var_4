@@ -1,14 +1,17 @@
 ﻿using Ex_var_4.Model;
+using Ex_var_4.ViewModel.Command;
 using Ex_var_4.ViewModel.NotifyPropertyChanged;
-using System.Collections.Generic;
+using System;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 
 namespace Ex_var_4.ViewModel
 {
     internal class MainWindowViewModel : NotifyPropertyChangedClass
     {
-        List<Employee> employees;
-        public List<Employee> Employees
+        ObservableCollection<Employee> employees;
+        public ObservableCollection<Employee> Employees
         {
             get => employees;
             set => Set(ref employees, value);
@@ -22,8 +25,8 @@ namespace Ex_var_4.ViewModel
         }
 
 
-        List<Employee> resultSearch;
-        public List<Employee> ResultSearch
+        ObservableCollection<Employee> resultSearch;
+        public ObservableCollection<Employee> ResultSearch
         {
             get => resultSearch;
             set => Set(ref resultSearch, value);
@@ -38,7 +41,7 @@ namespace Ex_var_4.ViewModel
                 Set(ref search, value);
                 if (value != string.Empty)
                 {
-                    ResultSearch = UpdateListEmployee();
+                    ResultSearch = UpdateCollectionEmployee();
                 }
                 else
                 {
@@ -47,22 +50,54 @@ namespace Ex_var_4.ViewModel
             }
         }
 
+        public ICommand AddCommand { get; private set; }
+        public ICommand RemoveCommand { get; private set; }
+
         public MainWindowViewModel()
         {
-            Employees = EmployeesDB.GetEmployees().ToList();
+            Employees = EmployeesDB.GetEmployees();
+            AddCommand = new CommandClass(AddEmployee);
+            RemoveCommand = new CommandClass(RemoveEmployee, CanRemoveBook);
         }
+
+        bool CanRemoveBook(object arg)
+        {
+            return (arg as Employee) != null;
+        }
+
+        void RemoveEmployee(object obj)
+        {
+            Employees.Remove((Employee)obj);
+        }
+
+        void AddEmployee(object obj)
+        {
+            Employees.Add(new Employee()
+            {
+                Surname = "new_surname_1",
+                Name = "new_name_1",
+                Patronymic = "new_patronymic_1",
+                PhoneNumber = "1234567890",
+                JobTitle = "new_jobTitle_1",
+                Departament = "new_departament_1",
+                Login = "new_login_1",
+                Password = "new_password_1",
+                EMail = "new_email_1"
+            });
+        }
+
         /// <summary>
         /// поиск по ФИО, должности, логину, номеру телефона
         /// </summary>
         /// <returns>список совпадений</returns>
-        List<Employee> UpdateListEmployee()
+        ObservableCollection<Employee> UpdateCollectionEmployee()
         {
-            var result = EmployeesDB.GetEmployees().Where(x => search == string.Empty || search == null
+            var result = new ObservableCollection<Employee>(Employees.ToList().Where(x => search == string.Empty || search == null
             || x.Name.ToLower().Contains(search.ToLower())
             || x.Surname.ToLower().Contains(search.ToLower())
             || x.Patronymic.ToLower().Contains(search.ToLower())
             || x.Login.ToLower().Contains(search.ToLower())
-            || x.PhoneNumber.ToLower().Contains(search.ToLower())).ToList();
+            || x.PhoneNumber.ToLower().Contains(search.ToLower())).ToList());
 
             return result;
         }
