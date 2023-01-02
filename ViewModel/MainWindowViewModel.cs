@@ -14,18 +14,19 @@ namespace Ex_var_4.ViewModel
             set => Set(ref employees, value);
         }
 
-        List<Employee> employeesSearch;
-        public List<Employee> EmployeesSearch
-        {
-            get => employeesSearch;
-            set => Set(ref employeesSearch, value);
-        }
-
         Employee selectedEmployee;
         public Employee SelectedEmployee
         {
             get => selectedEmployee;
             set => Set(ref selectedEmployee, value);
+        }
+
+
+        List<Employee> resultSearch;
+        public List<Employee> ResultSearch
+        {
+            get => resultSearch;
+            set => Set(ref resultSearch, value);
         }
 
         string search;
@@ -49,13 +50,6 @@ namespace Ex_var_4.ViewModel
         public MainWindowViewModel()
         {
             Employees = EmployeesDB.GetEmployees().ToList();
-        }
-
-        List<Employee> resultSearch;
-        public List<Employee> ResultSearch
-        {
-            get => resultSearch;
-            set => Set(ref resultSearch, value);
         }
         /// <summary>
         /// поиск по ФИО, должности, логину, номеру телефона
