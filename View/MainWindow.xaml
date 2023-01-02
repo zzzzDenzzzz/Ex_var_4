@@ -10,6 +10,11 @@
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Key="Delete"
+                    Command="{Binding Path=RemoveCommand}"
+                    CommandParameter="{Binding Path=SelectedEmployee}"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120"/>
@@ -31,7 +36,9 @@
                             Command="{Binding Path=RemoveCommand}"
                             CommandParameter="{Binding Path=SelectedEmployee}"/>
                     <Button Content="Изменить"
-                            Margin="0 2"/>
+                            Margin="0 2"
+                            Command="{Binding Path=ChangeCommand}"
+                            CommandParameter="{Binding Path=SelectedEmployee}"/>
                 </StackPanel>
                 
                 <ListBox ItemsSource="{Binding Path=Employees}"
@@ -75,18 +82,19 @@
 
                 <StackPanel Grid.Column="1"
                             Grid.IsSharedSizeScope="True"
-                            Background="LightBlue"
+                            Width="160"
                             Margin="3">
-                    <TextBlock Text="{Binding Path=SelectedEmployee.Surname}"/>
-                    <TextBlock Text="{Binding Path=SelectedEmployee.Name}"/>
-                    <TextBlock Text="{Binding Path=SelectedEmployee.Patronymic}"/>
-                    <TextBlock Text="{Binding Path=SelectedEmployee.PhoneNumber}"/>
-                    <TextBlock Text="{Binding Path=SelectedEmployee.JobTitle}"/>
-                    <TextBlock Text="{Binding Path=SelectedEmployee.Departament}"/>
-                    <TextBlock Text="{Binding Path=SelectedEmployee.Login}"/>
-                    <TextBlock Text="{Binding Path=SelectedEmployee.Password}"/>
-                    <TextBlock Text="{Binding Path=SelectedEmployee.EMail}"/>
+                    <TextBox Text="{Binding Path=SelectedEmployee.Surname}"/>
+                    <TextBox Text="{Binding Path=SelectedEmployee.Name}"/>
+                    <TextBox Text="{Binding Path=SelectedEmployee.Patronymic}"/>
+                    <TextBox Text="{Binding Path=SelectedEmployee.PhoneNumber}"/>
+                    <TextBox Text="{Binding Path=SelectedEmployee.JobTitle}"/>
+                    <TextBox Text="{Binding Path=SelectedEmployee.Departament}"/>
+                    <TextBox Text="{Binding Path=SelectedEmployee.Login}"/>
+                    <TextBox Text="{Binding Path=SelectedEmployee.Password}"/>
+                    <TextBox Text="{Binding Path=SelectedEmployee.EMail}"/>
                 </StackPanel>
+                
             </Grid>
         </GroupBox>
 

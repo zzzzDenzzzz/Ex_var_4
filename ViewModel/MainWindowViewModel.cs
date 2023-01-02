@@ -1,9 +1,9 @@
 ﻿using Ex_var_4.Model;
 using Ex_var_4.ViewModel.Command;
 using Ex_var_4.ViewModel.NotifyPropertyChanged;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Ex_var_4.ViewModel
@@ -52,22 +52,36 @@ namespace Ex_var_4.ViewModel
 
         public ICommand AddCommand { get; private set; }
         public ICommand RemoveCommand { get; private set; }
+        public ICommand ChangeCommand { get; private set; }
 
         public MainWindowViewModel()
         {
             Employees = EmployeesDB.GetEmployees();
             AddCommand = new CommandClass(AddEmployee);
-            RemoveCommand = new CommandClass(RemoveEmployee, CanRemoveBook);
+            RemoveCommand = new CommandClass(RemoveEmployee, CanRemoveEmployee);
+            ChangeCommand = new CommandClass(ChangeEmployee, CanChangeEmployee);
         }
 
-        bool CanRemoveBook(object arg)
+        void ChangeEmployee(object obj)
+        {
+            Search = string.Empty;
+            MessageBox.Show("Изменения сохранены");
+        }
+
+        bool CanChangeEmployee(object arg)
+        {
+            return (arg as Employee) != null;
+        }
+
+        bool CanRemoveEmployee(object arg)
         {
             return (arg as Employee) != null;
         }
 
         void RemoveEmployee(object obj)
         {
-            Employees.Remove((Employee)obj);
+            Employees.Remove(obj as Employee);
+            Search = string.Empty;
         }
 
         void AddEmployee(object obj)
